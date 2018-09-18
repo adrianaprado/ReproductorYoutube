@@ -3,6 +3,7 @@ package com.adriana.prado.pojo;
 public class Video {
 	private String id;
 	private String titulo;
+	private String descripcion;
 
 	public static final int ID_LENGTH = 11;
 	public static final String ID_LENGTH_EXCEPTION = "La longitud del ID tiene que ser " + ID_LENGTH;
@@ -11,6 +12,8 @@ public class Video {
 		super();
 		id = "UmYKPY_-ejc";
 		titulo = "Game of Thrones - Season 7 - Main Titles";
+		descripcion = "Esta es una descripción de ejemplo para el vídeo por defecto.";
+		
 	}
 
 	public Video(String id, String titulo) throws Exception {

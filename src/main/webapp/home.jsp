@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.util.Date"%>
 <%@page import="com.adriana.prado.pojo.Usuario"%>
 <%@page import="com.adriana.prado.pojo.Alert"%>
 <%@page import="com.adriana.prado.controller.HomeController"%>
@@ -56,7 +59,6 @@
 					<!-- Formulario de login -->
 					<form class="form-inline navbar-nav ml-auto" action="login"
 						method="post">
-						<p class="text-danger">${msg}</p>
 						<input required type="text" class="form-control mb-1 mr-sm-2" id="inlineFormInputName2" placeholder="Usuario"
 							name="user" pattern=".{3,30}">
 						<div class="input-group mb-1 mr-sm-2">
@@ -82,7 +84,6 @@
 					<!-- Formulario para crear video -->
 						<form class="form-inline navbar-nav ml-auto" action="inicio"
 							method="post">
-							<p class="text-danger">${msg}</p>
 							<input
 								required type="text" class="form-control mb-1 mr-sm-2"
 								id="inlineFormInputName2" placeholder="ID (11 caracteres)"
@@ -178,7 +179,7 @@
 						//end if != null
 						%>
 		          			<li class="list-group-item d-flex justify-content-between align-items-center">
-		          				<p>*Por favor Inicia Session para guardar tus video reproducidos</p>
+		          				<p>*Por favor Inicia Sesion para guardar tus video reproducidos</p>
 		          			</li>
 		          		<%
 						}
@@ -228,7 +229,36 @@
 							Sequi mollitia, necessitatibus quae sint natus.</p>
 						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
 						<hr>
-						<a href="#" class="btn btn-success">Comentar</a>
+						<div hidden="">
+							<p><% %></p>
+							<small class="text-muted">Posted by <% %> on <% %></small>
+							<hr>
+						</div>
+						<%if(session.getAttribute("usuario")!=null){ %>
+						<form action="comentar" method="post" id="cmtform">
+							<textarea rows="4" cols="105" name="comentario" form="cmtform" 
+							placeholder="Escribe aquí tu comentario..."></textarea>
+							<%
+								DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+							    LocalDateTime now = LocalDateTime.now();
+							    Usuario user;
+							    
+							    	user = (Usuario)session.getAttribute("usuario");
+							    
+							%>
+							<input hidden type="text" name="fecha" value="<%=now%>">
+							<input hidden type="text" name="user" value="<%=user%>">
+							<%
+							    }else{
+							%>
+								<p>****Por favor inicia sesión para comentar en el vídeo****</p>
+							<%
+							    }
+							%>
+							<div>
+								<button type="submit" class="btn btn-success">Comentar</button>
+							</div>
+						</form>
 					</div>
 				</div>
 				<!-- /.card -->
