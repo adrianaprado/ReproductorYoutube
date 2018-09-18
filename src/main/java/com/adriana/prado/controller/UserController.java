@@ -60,7 +60,6 @@ public class UserController extends HttpServlet {
 				session.setMaxInactiveInterval(60*5); //5 minutos
 			}else {
 				alert = new Alert(Alert.ALERT_WARNING, "Credenciales incorrectas.");
-				
 			}
 			
 			session.setAttribute("alert", alert);

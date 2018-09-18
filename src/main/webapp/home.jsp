@@ -72,10 +72,11 @@
 						
 					%>
 					<div class="">
-						<span class="mr-2 text-center" style="color:#FFF">
-							<i class="fas fa-user mr-2 ml-2"></i> 
+						<span class="text-center" style="color:#FFF">
+							<i class="fas fa-user mr-1 ml-2"></i> 
 							<%=usuario.getNombre() %> |
-							<a class="ml-1" href="logout">Cerrar sesión</a>
+							<a class="ml-1 mr-4" href="logout">Cerrar sesión</a>
+							<a href="backoffice/index.jsp">Acceder al Backoffice</a>
 						</span> 
 					</div>
 					<!-- Formulario para crear video -->
