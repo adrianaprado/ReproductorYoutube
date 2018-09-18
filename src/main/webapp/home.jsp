@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<%@page import="com.adriana.prado.pojo.Usuario"%>
+<%@page import="com.adriana.prado.pojo.Alert"%>
 <%@page import="com.adriana.prado.controller.HomeController"%>
 <%@page import="com.adriana.prado.pojo.Video"%>
 <%@page import="java.util.ArrayList"%>
 <html lang="es">
 
 <head>
+
+<!-- Comienza todas las URLs desde el href indicado -->
+<base href="<%=request.getContextPath()%>/">
 
 <meta charset="utf-8">
 <meta name="viewport"
@@ -37,23 +42,63 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active">
+					
+					<%
+						//Gestion Usuario Loggeado
+						Usuario usuario = (Usuario) session.getAttribute("usuario");
+						if(session.getAttribute("usuario")==null){
+							
+					%>
+					
+					
+					<!-- Formulario de login -->
+					<form class="form-inline navbar-nav ml-auto" action="login"
+						method="post">
+						<p class="text-danger">${msg}</p>
+						<input required type="text" class="form-control mb-1 mr-sm-2" id="inlineFormInputName2" placeholder="Usuario"
+							name="user" pattern=".{3,30}">
+						<div class="input-group mb-1 mr-sm-2">
+						<input required type="password" class="form-control" id="inlineFormInputGroupUsername2"
+							placeholder="Contraseña" name="pswd" pattern=".{2,50}">
+						</div>
+						<button type="submit" class="btn btn-primary mb-1">Entrar</button>
+					</form> 
+					
+					<%		
+					
+						}else{
+						
+					%>
+					
+					<!-- Formulario para crear video -->
 						<form class="form-inline navbar-nav ml-auto" action=""
 							method="post">
 							<p class="text-danger">${msg}</p>
-							<label class="sr-only" for="inlineFormInputName2">ID</label> <input
-								required type="text" class="form-control mb-2 mr-sm-2"
+							<input
+								required type="text" class="form-control mb-1 mr-sm-2"
 								id="inlineFormInputName2" placeholder="ID (11 caracteres)"
-								name="id" pattern=".{11,11}"> <label class="sr-only"
-								for="inlineFormInputGroupUsername2">Titulo</label>
-							<div class="input-group mb-2 mr-sm-2">
+								name="id" pattern=".{11,11}">
+							<div class="input-group mb-1 mr-sm-2">
 								<input required type="text" class="form-control"
 									id="inlineFormInputGroupUsername2"
 									placeholder="Título (mínimo 2 letras)" name="titulo">
 							</div>
-							<button type="submit" class="btn btn-primary mb-2">Añadir</button>
-						</form> </il>
+							<button type="submit" class="btn btn-primary mb-1">Añadir</button>
+							
+							<span class="mr-2 text-center" style="color:#FFF">
+								<i class="fas fa-user mr-2 ml-3"></i> 
+								<%=usuario.getNombre() %> |
+								<a class="ml-1" href="logout">Cerrar sesión</a>
+							 </span> 
+						</form> 
+						
+					<%		
+					
+						}
+						
+					%>
+					</il>
 				</ul>
-
 
 			</div>
 		</div>
@@ -61,6 +106,29 @@
 
 	<!-- Page Content -->
 	<div class="container">
+	
+		<%
+			//Gestion de alertas para el usuario
+			Alert alert = (Alert) request.getAttribute("alert");
+			
+			if (alert == null){
+				alert = (Alert) session.getAttribute("alert");
+				session.setAttribute("alert", null); 
+				//Eliminar atributo. Sino al recargar vuelve a sacar la misma alerta
+			}
+										
+			if(alert != null){
+				
+		%>
+			<div class="alert <%=alert.getTipo()%> alert-dismissible fade show" role="alert">
+				<p><%=alert.getTexto() %></p>
+			 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			 		<span aria-hidden="true">&times;</span>
+			 	</button>
+			</div>
+		<%
+			}
+		%>
 
 		<div class="row">
 
@@ -81,6 +149,35 @@
 	           		</li>
 					<%
 						} //end for
+					%>
+
+				</ul>
+				
+				<%
+					//Gestion Usuario Loggeado
+					if(session.getAttribute("usuario")!=null){
+							
+				%>
+				
+				<h1 class="my-4">Vídeos reproducidos</h1>
+				<ul class="list-group">
+					<%
+						ArrayList<Video> videosVistos = (ArrayList<Video>) request.getAttribute("videosVistos");
+					
+						videoInicio = videos.get(0);
+						
+						if(videosVistos != null){
+							
+						for (Video v : videosVistos) {
+					%>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<a href="#" onclick="reproducir('<%=v.getId() %>')" class="list-group-item"> <%=v.getTitulo()%></a> 
+						<a href="?id=<%=v.getId()%>&op=<%=1%>"><i style="color:red;" class="float-right fas fa-trash-alt"></i></a>
+	           		</li>
+					<%
+							} //end for
+						}
+					}
 					%>
 
 				</ul>
