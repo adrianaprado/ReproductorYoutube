@@ -57,7 +57,6 @@ public class UserController extends HttpServlet {
 				//Guardar Usuario en session
 				
 				session.setAttribute("usuario", new Usuario(user, pswd));
-				session.setAttribute("videosVistos", new ArrayList<Video>());
 				session.setMaxInactiveInterval(60*5); //5 minutos
 			}else {
 				alert = new Alert(Alert.ALERT_WARNING, "Credenciales incorrectas.");
@@ -70,7 +69,7 @@ public class UserController extends HttpServlet {
 		}finally {
 			session.setAttribute("alert", alert);
 			//request.getRequestDispatcher("/").forward(request, response);
-			response.sendRedirect(request.getContextPath() + "/");
+			response.sendRedirect(request.getContextPath() + "/inicio");
 		}	
 	}
 }

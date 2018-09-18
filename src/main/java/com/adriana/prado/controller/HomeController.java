@@ -14,11 +14,12 @@ import javax.servlet.http.HttpSession;
 import com.adriana.prado.model.VideoArrayDAO;
 import com.adriana.prado.pojo.Video;
 import com.adriana.prado.pojo.Alert;
+import com.adriana.prado.pojo.Usuario;
 
 /**
  * Servlet implementation class HomeController
  */
-@WebServlet("/")
+@WebServlet("/inicio")
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -33,6 +34,7 @@ public class HomeController extends HttpServlet {
 	private static String msg = "";
 	private static VideoArrayDAO dao;
 	private static ArrayList<Video> videos;
+	private Video videoInicio;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -60,7 +62,7 @@ public class HomeController extends HttpServlet {
 		
 		//despues de Get y Post
 		req.setAttribute("videos", videos);
-		req.setAttribute("videos", videos);
+		req.setAttribute("videoInicio", videoInicio);
 		req.getRequestDispatcher("home.jsp").forward(req, resp);
 	}
 
@@ -72,21 +74,50 @@ public class HomeController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			
-			
 			id = request.getParameter("id");
 			op = request.getParameter("op");
 			
+			
+			//Eliminar video
 			if ( op != null && OP_ELIMINAR.equals(op) ) {
 				dao.delete(id);
 			}
 			
+			//listar videos
 			videos = (ArrayList<Video>) dao.getAll();
+			
+			//Video inicio
+			videoInicio = new Video();
+			
+			if(id!= null && !OP_ELIMINAR.equals(op)) {
+				videoInicio = dao.getById(id);
+				
+				//Guardar video reproducido si el user esta en sesion
+				HttpSession session = request.getSession();
+				Usuario usuario = (Usuario) session.getAttribute("usuario");
+				
+				//Si esta loggeado
+				if(usuario != null) {
+					ArrayList<Video> videosReproducidos = (ArrayList<Video>) session.getAttribute("videosVistos");
+					
+					if(videosReproducidos == null ) {
+						videosReproducidos = new ArrayList<Video>();
+					}
+					
+					videosReproducidos.add(videoInicio);
+					session.setAttribute("videosVistos", videosReproducidos);				
+					
+				}
+				
+			}else if(!videos.isEmpty()) {
+				videoInicio = videos.get(0);
+			}
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			request.setAttribute("videos", videos);
-			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 	}
 

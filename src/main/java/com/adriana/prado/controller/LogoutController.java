@@ -35,16 +35,17 @@ public class LogoutController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		try {
-			
-			session.invalidate();
-			session = null;
+			if(session != null) {
+				session.invalidate();
+				session = null;
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
 			//request.setAttribute("alert", new Alert(Alert.ALERT_PRIMARY, "Has cerrado sesión."));
 			//request.getRequestDispatcher("/").forward(request, response);
-			response.sendRedirect(request.getContextPath() + "/");
+			response.sendRedirect(request.getContextPath() + "/inicio");
 		}
 	}
 

@@ -18,6 +18,8 @@
 <meta name="author" content="Adriana">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
+<link rel="stylesheet" href="css/styles.css">
+
 <title>Youtube</title>
 
 <!-- Bootstrap core CSS -->
@@ -69,9 +71,15 @@
 						}else{
 						
 					%>
-					
+					<div class="">
+						<span class="mr-2 text-center" style="color:#FFF">
+							<i class="fas fa-user mr-2 ml-2"></i> 
+							<%=usuario.getNombre() %> |
+							<a class="ml-1" href="logout">Cerrar sesión</a>
+						</span> 
+					</div>
 					<!-- Formulario para crear video -->
-						<form class="form-inline navbar-nav ml-auto" action=""
+						<form class="form-inline navbar-nav ml-auto" action="inicio"
 							method="post">
 							<p class="text-danger">${msg}</p>
 							<input
@@ -84,12 +92,6 @@
 									placeholder="Título (mínimo 2 letras)" name="titulo">
 							</div>
 							<button type="submit" class="btn btn-primary mb-1">Añadir</button>
-							
-							<span class="mr-2 text-center" style="color:#FFF">
-								<i class="fas fa-user mr-2 ml-3"></i> 
-								<%=usuario.getNombre() %> |
-								<a class="ml-1" href="logout">Cerrar sesión</a>
-							 </span> 
 						</form> 
 						
 					<%		
@@ -120,7 +122,7 @@
 			if(alert != null){
 				
 		%>
-			<div class="alert <%=alert.getTipo()%> alert-dismissible fade show" role="alert">
+			<div class="alert <%=alert.getTipo()%> alert-dismissible fade show mt-4" role="alert">
 				<p><%=alert.getTexto() %></p>
 			 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			 		<span aria-hidden="true">&times;</span>
@@ -137,15 +139,13 @@
 				<ul class="list-group">
 					<%
 						ArrayList<Video> videos = (ArrayList<Video>) request.getAttribute("videos");
-						Video videoInicio = new Video();
-						if(!videos.isEmpty())
-							videoInicio = videos.get(0);
-						
+						Video videoInicio = (Video)request.getAttribute("videoInicio");
+
 						for (Video v : videos) {
 					%>
 					<li class="list-group-item d-flex justify-content-between align-items-center">
-						<a href="#" onclick="reproducir('<%=v.getId() %>')" class="list-group-item"> <%=v.getTitulo()%></a> 
-						<a href="?id=<%=v.getId()%>&op=<%=1%>"><i style="color:red;" class="float-right fas fa-trash-alt"></i></a>
+						<a href="inicio?id=<%=v.getId()%>"><%=v.getTitulo()%></a>
+		          	  	<a href="inicio?id=<%=v.getId()%>&op=<%=HomeController.OP_ELIMINAR%>"><i style="color:red;" class="float-right fas fa-trash-alt"></i></a>
 	           		</li>
 					<%
 						} //end for
@@ -162,22 +162,26 @@
 				<h1 class="my-4">Vídeos reproducidos</h1>
 				<ul class="list-group">
 					<%
-						ArrayList<Video> videosVistos = (ArrayList<Video>) request.getAttribute("videosVistos");
-					
-						videoInicio = videos.get(0);
+						ArrayList<Video> videosVistos = (ArrayList<Video>) session.getAttribute("videosVistos");
 						
 						if(videosVistos != null){
 							
-						for (Video v : videosVistos) {
+						for (Video vv : videosVistos) {
 					%>
-					<li class="list-group-item d-flex justify-content-between align-items-center">
-						<a href="#" onclick="reproducir('<%=v.getId() %>')" class="list-group-item"> <%=v.getTitulo()%></a> 
-						<a href="?id=<%=v.getId()%>&op=<%=1%>"><i style="color:red;" class="float-right fas fa-trash-alt"></i></a>
-	           		</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center">     
+			          	  	<a href="?id=<%=vv.getId()%>"><%=vv.getTitulo()%></a>	          	  	
+			            </li>
 					<%
 							} //end for
+						}else{
+						//end if != null
+						%>
+		          			<li class="list-group-item d-flex justify-content-between align-items-center">
+		          				<p>*Por favor Inicia Session para guardar tus video reproducidos</p>
+		          			</li>
+		          		<%
 						}
-					}
+					}//end if session
 					%>
 
 				</ul>
