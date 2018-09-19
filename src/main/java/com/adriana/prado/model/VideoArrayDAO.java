@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.adriana.prado.pojo.Video;
 
-public class VideoArrayDAO implements CrudAble<Video> {
+public class VideoArrayDAO implements Crudable<Video> {
 
 	private static VideoArrayDAO INSTANCE = null;
 	private static List<Video> lista = null;

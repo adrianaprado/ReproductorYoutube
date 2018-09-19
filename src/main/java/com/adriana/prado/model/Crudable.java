@@ -15,7 +15,7 @@ import java.util.List;
  * @author ur00
  * 
  */
-public interface CrudAble<P> {
+public interface Crudable<P> {
 
 	boolean insert(P pojo);
 

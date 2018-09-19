@@ -246,7 +246,7 @@
 							    	user = (Usuario)session.getAttribute("usuario");
 							    
 							%>
-							<input hidden type="text" name="fecha" value="<%=now%>">
+							<input type="date" name="fecha" value="<%=now%>">
 							<input hidden type="text" name="user" value="<%=user%>">
 							<%
 							    }else{

@@ -51,7 +51,11 @@ public class UserController extends HttpServlet {
 			user = request.getParameter("user");
 			pswd = request.getParameter("pswd");
 			
-			if(user.equals("admin") && pswd.equals("admin")) {
+			//Comprobar usuario contra BBDD TODO
+			if(user.equals("admin") && pswd.equals("admin") ||
+					user.equals("pepe") && pswd.equals("pepe") ||
+					user.equals("manoli") && pswd.equals("manoli") ||
+					user.equals("josepo") && pswd.equals("josepo")) {
 				alert = new Alert(Alert.ALERT_PRIMARY, "Bienvenido "+user);
 				
 				//Guardar Usuario en session

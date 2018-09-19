@@ -36,6 +36,7 @@ public class LogoutController extends HttpServlet {
 		
 		try {
 			if(session != null) {
+				session.removeAttribute("usuario");
 				session.invalidate();
 				session = null;
 			}

@@ -1,6 +1,11 @@
 package com.adriana.prado.filter;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -48,6 +53,8 @@ public class FilterBackoffice implements Filter {
 				// pass the request along the filter chain
 				chain.doFilter(request, response);
 			}else {
+				informacionCliente(req);
+				
 				//usuario no loggeado
 				res.sendRedirect(req.getContextPath() + "/inicio");
 			}
@@ -56,6 +63,42 @@ public class FilterBackoffice implements Filter {
 			e.printStackTrace();
 			res.sendRedirect(req.getContextPath() + "/inicio");
 		}
+	}
+
+	/**
+	 * Mostramos informacion sobre la request del cliente
+	 * @param req
+	 */
+	private void informacionCliente(HttpServletRequest req) {
+		System.out.println("----------------------------------------");
+		
+		
+		System.out.println("Remote Host: "+req.getRemoteHost());
+		System.out.println("Remote Address: "+req.getRemoteAddr());
+		System.out.println("Remote Port: "+req.getRemotePort());
+		System.out.println("Remote User: "+req.getRemoteUser());
+		
+		System.out.println("");
+		System.out.println("Cabeceras: ");
+		Enumeration<String> nombresCabeceras = req.getHeaderNames();
+		String metadato;
+		
+		while(nombresCabeceras.hasMoreElements()) {
+			metadato = (String) nombresCabeceras.nextElement();
+			System.out.println(metadato + ": " + req.getHeader(metadato));
+		}
+		
+		System.out.println("");
+		System.out.println("Parámetros: ");
+		
+		Enumeration<String> parameterNames = req.getParameterNames();
+		while (parameterNames.hasMoreElements()) {
+		    String key = (String) parameterNames.nextElement();
+		    String val = req.getParameter(key);
+		    System.out.println("Key: "+key+", Value: "+val);
+		}
+		
+		System.out.println("----------------------------------------");
 	}
 
 	/**
