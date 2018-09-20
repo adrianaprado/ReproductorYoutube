@@ -15,6 +15,7 @@ import com.adriana.prado.model.ComentarioArrayDAO;
 import com.adriana.prado.model.VideoArrayDAO;
 import com.adriana.prado.pojo.Video;
 import com.adriana.prado.pojo.Alert;
+import com.adriana.prado.pojo.Comentario;
 import com.adriana.prado.pojo.Usuario;
 
 /**
@@ -36,6 +37,7 @@ public class HomeController extends HttpServlet {
 	private static VideoArrayDAO dao;
 	private static ComentarioArrayDAO daoComentarios;
 	private static ArrayList<Video> videos;
+	private static ArrayList<Comentario> comentarios;
 	private Video videoInicio;
 	
 	@Override
@@ -87,7 +89,11 @@ public class HomeController extends HttpServlet {
 			}
 			
 			//listar videos
+			comentarios = (ArrayList<Comentario>) daoComentarios.getAll();
 			videos = (ArrayList<Video>) dao.getAll();
+			
+			anyadirComentarios(videos, comentarios);
+			
 			
 			//Video inicio
 			videoInicio = new Video();
@@ -121,6 +127,20 @@ public class HomeController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+		}
+	}
+
+	private void anyadirComentarios(ArrayList<Video> videos2, ArrayList<Comentario> comentarios2) {
+		Video video;
+		Comentario comentario;
+		for(int i = 0;i < videos2.size() ; i++) {
+			for(int j = 0; j < comentarios2.size(); j++) {
+				video = videos2.get(i);
+				comentario = comentarios2.get(j);
+				if(video.getId().equals(comentarios2.get(j).getIdVideo())) {
+					videos2.get(i).getComentarios().add(comentario);
+				}
+			}
 		}
 	}
 

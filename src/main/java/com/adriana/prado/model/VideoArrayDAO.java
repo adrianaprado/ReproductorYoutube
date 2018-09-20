@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.adriana.prado.pojo.Comentario;
 import com.adriana.prado.pojo.Video;
 
 public class VideoArrayDAO implements Crudable<Video> {
@@ -14,9 +15,9 @@ public class VideoArrayDAO implements Crudable<Video> {
 	private VideoArrayDAO() {
 		lista = new ArrayList<Video>();
 		try {
-			lista.add(new Video("xuoXkMZvD5Q", "AC/DC - You Shook Me All Night Long"));
-			lista.add(new Video("O71fetlkCZo", "Queen - We Are The Champions"));
-			lista.add(new Video("EOKAnomhHRg", "Bleach Opening - Ranbu No Melody"));
+			lista.add(new Video("xuoXkMZvD5Q", "AC/DC - You Shook Me All Night Long", "Esta es la descripción del vídeo de AC/DC - You Shook Me All Night Long", new ArrayList<Comentario>()));
+			lista.add(new Video("O71fetlkCZo", "Queen - We Are The Champions", "Esta es la descripción del vídeo de Queen - We Are The Champions", new ArrayList<Comentario>()));
+			lista.add(new Video("EOKAnomhHRg", "Bleach Opening - Ranbu No Melody", "Esta es la descripción del vídeo de Bleach Opening - Ranbu No Melody", new ArrayList<Comentario>()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

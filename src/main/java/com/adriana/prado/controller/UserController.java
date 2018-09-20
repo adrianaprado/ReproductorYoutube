@@ -51,6 +51,7 @@ public class UserController extends HttpServlet {
 			user = request.getParameter("user");
 			pswd = request.getParameter("pswd");
 			
+			
 			//Comprobar usuario contra BBDD TODO
 			if(user.equals("admin") && pswd.equals("admin") ||
 					user.equals("pepe") && pswd.equals("pepe") ||
@@ -59,7 +60,6 @@ public class UserController extends HttpServlet {
 				alert = new Alert(Alert.ALERT_PRIMARY, "Bienvenido "+user);
 				
 				//Guardar Usuario en session
-				
 				session.setAttribute("usuario", new Usuario(user, pswd));
 				session.setMaxInactiveInterval(60*5); //5 minutos
 			}else {
@@ -71,6 +71,7 @@ public class UserController extends HttpServlet {
 			e.printStackTrace();
 		}finally {
 			session.setAttribute("alert", alert);
+			alert = null;
 			//request.getRequestDispatcher("/").forward(request, response);
 			response.sendRedirect(request.getContextPath() + "/inicio");
 		}	

@@ -7,7 +7,7 @@ public class Video {
 	private String id;
 	private String titulo;
 	private String descripcion;
-	private static List<Comentario> comentarios;
+	private List<Comentario> comentarios;
 
 	public static final int ID_LENGTH = 11;
 	public static final String ID_LENGTH_EXCEPTION = "La longitud del ID tiene que ser " + ID_LENGTH;
@@ -17,13 +17,20 @@ public class Video {
 		this.id = "UmYKPY_-ejc";
 		this.titulo = "Game of Thrones - Season 7 - Main Titles";
 		this.descripcion = "Esta es una descripción de ejemplo para el vídeo por defecto.";
-		Video.comentarios = new ArrayList<Comentario>();
+		this.comentarios = new ArrayList<Comentario>();
 	}
 
 	public Video(String id, String titulo) throws Exception {
 		this();
 		setId(id);
 		this.titulo = titulo;
+	}
+	
+	public Video(String id, String titulo, String descripcion) throws Exception {
+		this();
+		setId(id);
+		this.titulo = titulo;
+		this.descripcion = descripcion;
 	}
 	
 	public Video(String id, String titulo, String descripcion, List<Comentario> comentarios) throws Exception {
@@ -61,12 +68,12 @@ public class Video {
 		this.descripcion = descripcion;
 	}
 
-	public static List<Comentario> getComentarios() {
+	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
-	public static void setComentarios(List<Comentario> comentarios) {
-		Video.comentarios = comentarios;
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	@Override
