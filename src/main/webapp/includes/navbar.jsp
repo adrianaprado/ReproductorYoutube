@@ -1,7 +1,21 @@
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+	<%@page import="java.net.URLDecoder"%>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="#">Youtube Playlist</a>
+			<%
+				String user ="";
+				String fecha = "";
+				Cookie[] cookies = request.getCookies();
+				for(Cookie c: cookies){
+					if(c.getName().equals("cVisita")){
+						fecha = URLDecoder.decode(c.getValue(), "UTF-8");
+					}
+					if(c.getName().equals("cSesion")){
+						user = c.getValue();
+					}
+				%>
+			<span class="text-warning mr-auto"> Última visita <%=fecha %></span>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -10,10 +24,8 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active">
-					
 						<!-- Usuario no loggeado -->
 						<c:if test="${empty usuario}">
-						
 							<!-- Formulario de login -->
 							<form class="form-inline navbar-nav ml-auto" action="login"
 								method="post">
@@ -23,14 +35,23 @@
 								<input required type="password" class="form-control" id="inlineFormInputGroupUsername2"
 									placeholder="Contraseña" name="pswd" pattern=".{2,50}">
 								</div>
-								<button type="submit" class="btn btn-primary mb-1">Entrar</button>
+								<button type="submit" class="btn btn-primary mb-1 mr-2">Entrar</button>
+								<input type="checkbox" id="check" value="recordar" name="recordar"> <label for="check" class="text-light" <%
+								if(!user.equals("")){
+										
+								%>
+									checked
+								<% 
+									}					
+								%>>Recordar sesión</label> 
 							</form> 
-						
+						<%}
+			%>
 						</c:if>
 						
 						<!-- Usuario Loggeado -->
 						<c:if test="${not empty usuario}">
-						
+							</div>
 							<div class="">
 								<span class="text-center" style="color:#FFF">
 									<i class="fas fa-user mr-1 ml-2"></i> 

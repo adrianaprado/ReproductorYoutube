@@ -1,11 +1,16 @@
 package com.adriana.prado.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +44,7 @@ public class HomeController extends HttpServlet {
 	private static ArrayList<Video> videos;
 	private static ArrayList<Comentario> comentarios;
 	private Video videoInicio;
+
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -62,6 +68,36 @@ public class HomeController extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//Estas lineas se ejecutaran antes de GET o POST
 		System.out.println("Antes de realizar Get o post");
+		
+		//Gestionar cookies de ultima visita
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		Date fechaActual = new Date();
+//		System.out.println(dateFormat.format(fechaActual));
+//		Cookie cVisita = new Cookie("cVisita", dateFormat.format(new Date()));
+		Cookie cVisita = new Cookie("cVisita", URLEncoder.encode(dateFormat.format(new Date()), "UTF-8") );
+		cVisita.setMaxAge(60*60*24*365); //Un año
+		resp.addCookie(cVisita);
+		
+		//Recuperar todas las cookies
+		Cookie[] cookies = req.getCookies();
+		
+		HttpSession session = req.getSession();
+		
+		
+//		for(int i = 0; i < cookies.length; i++) {
+//			System.out.println(cookies[i].getName());
+//			if(cookies[i].getName().equals("cSesion")) {
+//				Cookie cookie = cookies[i];
+//				if(cookie.getMaxAge() == 0) {
+//					System.out.println("Cierra sesión");
+//				}
+//				String s = cookies[i].getValue();
+//				
+//				String nombre = s.substring(0, s.indexOf("-"));
+//				String pswd =  s.substring(s.indexOf("-")+1);
+//				session.setAttribute("usuario", new Usuario(nombre, pswd));
+//			}
+//		}
 		
 		super.service(req, resp); //llama a los metodos GET y POST
 		
@@ -137,6 +173,7 @@ public class HomeController extends HttpServlet {
 			for(int j = 0; j < comentarios2.size(); j++) {
 				video = videos2.get(i);
 				comentario = comentarios2.get(j);
+				System.out.println("Id Video: " + video.getId() + ", Id Comentario-Video: " + comentario.getIdVideo());
 				if(video.getId().equals(comentarios2.get(j).getIdVideo())) {
 					videos2.get(i).getComentarios().add(comentario);
 				}

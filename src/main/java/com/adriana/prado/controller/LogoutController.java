@@ -3,12 +3,14 @@ package com.adriana.prado.controller;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.adriana.prado.pojo.Alert;
+import com.adriana.prado.pojo.Usuario;
 
 /**
  * Servlet implementation class LogoutController
@@ -33,12 +35,18 @@ public class LogoutController extends HttpServlet {
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
+//		Cookie[] cookies = request.getCookies();
 		
 		try {
 			if(session != null) {
 				session.removeAttribute("usuario");
 				session.invalidate();
 				session = null;
+//				for(int i = 0; i < cookies.length; i++) {
+//					if(cookies[i].getName().equals("cSesion")) {
+//						cookies[i].setMaxAge(0);
+//					}
+//				}
 			}
 			
 		}catch(Exception e) {

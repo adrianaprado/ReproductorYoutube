@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ public class UserController extends HttpServlet {
 	//Parametros
 	private static String user = "";
 	private static String pswd = "";
+	private static String recordar = "";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,6 +52,7 @@ public class UserController extends HttpServlet {
 		try {
 			user = request.getParameter("user");
 			pswd = request.getParameter("pswd");
+			recordar = request.getParameter("recordar");
 			
 			
 			//Comprobar usuario contra BBDD TODO
@@ -62,6 +65,13 @@ public class UserController extends HttpServlet {
 				//Guardar Usuario en session
 				session.setAttribute("usuario", new Usuario(user, pswd));
 				session.setMaxInactiveInterval(60*5); //5 minutos
+				
+				if(recordar.equals("recordar")) {
+					Usuario u = new Usuario(user, pswd);
+					Cookie cSesion = new Cookie("cSesion", user);
+					cSesion.setMaxAge(60*60*24*90); //3 meses
+					response.addCookie(cSesion);
+				}
 			}else {
 				alert = new Alert(Alert.ALERT_WARNING, "Credenciales incorrectas.");
 			}
