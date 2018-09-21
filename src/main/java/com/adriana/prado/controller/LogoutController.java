@@ -42,11 +42,6 @@ public class LogoutController extends HttpServlet {
 				session.removeAttribute("usuario");
 				session.invalidate();
 				session = null;
-//				for(int i = 0; i < cookies.length; i++) {
-//					if(cookies[i].getName().equals("cSesion")) {
-//						cookies[i].setMaxAge(0);
-//					}
-//				}
 			}
 			
 		}catch(Exception e) {

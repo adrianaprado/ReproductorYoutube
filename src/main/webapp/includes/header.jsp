@@ -1,5 +1,11 @@
+<%@include file="taglibs.jsp"%>
+
+<c:set var="idioma" value="${(not empty sessionScope.idioma)?sessionScope.idioma:'es_ES'}"/>
+<fmt:setLocale value="${idioma}" />
+<fmt:setBundle basename="idiomas" /> 
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="${idioma}">
 
 <head>
 
@@ -11,7 +17,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="videos youtube">
 <meta name="author" content="Adriana">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
 <link rel="stylesheet" href="css/styles.css">
 
@@ -26,3 +32,4 @@
 </head>
 
 <body>
+

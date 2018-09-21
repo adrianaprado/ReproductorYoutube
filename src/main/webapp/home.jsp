@@ -26,6 +26,9 @@
 
 	<!-- Page Content -->
 	<div class="container">
+<%-- 	<p><fmt:message key="msj.video.por.visualizar"> --%>
+<%-- 		<fmt:param value="1" /> --%>
+<%-- 	</fmt:message></p> --%>
 		<c:if test="${empty alert }">
 			${alert = null }
 		</c:if>
@@ -59,7 +62,7 @@
 				<!-- /.card -->
 
 				<div class="card card-outline-secondary my-4">
-					<div class="card-header">Comentarios</div>
+					<div class="card-header"><fmt:message key="titulo.comentarios"/></div>
 					<div class="card-body">
 						<c:forEach items="${videos}" var="v">
 <%-- 							<p>${v.comentarios.contenido }</p> --%>
@@ -89,7 +92,7 @@
 								<input type="hidden" name="user" value="${usuario}">
 								
 								<div>
-									<button type="submit" class="btn btn-success">Comentar</button>
+									<button type="submit" class="btn btn-success"><fmt:message key="boton.comentar"/></button>
 								</div>
 							</form>
 						</c:if>

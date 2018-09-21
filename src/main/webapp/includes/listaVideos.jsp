@@ -1,5 +1,7 @@
+<%@include file="taglibs.jsp"%>
+
 <div class="col-lg-3">
-				<h1 class="my-4">Lista de reproducción</h1>
+				<h1 class="my-4"><fmt:message key="lista.reproduccion"/></h1>
 				<ul class="list-group">
 				
 					<c:forEach items="${videos }" var="v">
@@ -12,7 +14,7 @@
 				</ul>
 				<c:if test="${not empty usuario}">
 				
-					<h1 class="my-4">Vídeos reproducidos</h1>
+					<h1 class="my-4"><fmt:message key="lista.visualizados"/></h1>
 					<ul class="list-group">
 						<c:if test="${not empty videosVistos}">
 						

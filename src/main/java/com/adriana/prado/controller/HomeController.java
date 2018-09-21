@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -71,9 +73,6 @@ public class HomeController extends HttpServlet {
 		
 		//Gestionar cookies de ultima visita
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		Date fechaActual = new Date();
-//		System.out.println(dateFormat.format(fechaActual));
-//		Cookie cVisita = new Cookie("cVisita", dateFormat.format(new Date()));
 		Cookie cVisita = new Cookie("cVisita", URLEncoder.encode(dateFormat.format(new Date()), "UTF-8") );
 		cVisita.setMaxAge(60*60*24*365); //Un año
 		resp.addCookie(cVisita);
@@ -83,21 +82,38 @@ public class HomeController extends HttpServlet {
 		
 		HttpSession session = req.getSession();
 		
+		String idioma = req.getParameter("idioma");
 		
-//		for(int i = 0; i < cookies.length; i++) {
-//			System.out.println(cookies[i].getName());
-//			if(cookies[i].getName().equals("cSesion")) {
-//				Cookie cookie = cookies[i];
-//				if(cookie.getMaxAge() == 0) {
-//					System.out.println("Cierra sesión");
-//				}
-//				String s = cookies[i].getValue();
-//				
-//				String nombre = s.substring(0, s.indexOf("-"));
-//				String pswd =  s.substring(s.indexOf("-")+1);
-//				session.setAttribute("usuario", new Usuario(nombre, pswd));
-//			}
-//		}
+		try {
+			//Idiomas
+			//Locale por defecto Español
+			
+			if(idioma == null) {
+				idioma = (String) session.getAttribute("idioma");
+			}
+			
+			if(idioma == null) {
+				//Conseguir idioma a traves de la request
+				idioma = req.getLocale().toString();
+				if(idioma.length() != 5) {
+					idioma = "es_ES";
+				}
+			}
+			
+//			Locale locale = new Locale("es", "ES");
+//			ResourceBundle idiomas = ResourceBundle.getBundle("idiomas", locale );
+//			System.out.println(idiomas.getString("msj.bienvenida"));
+//			Locale locale = request.getLocale(); (not empty sessionScope.idioma)?sessionScope.idioma:'es_ES'
+			
+		}catch(Exception e){
+			idioma = "es_ES";	
+		}finally {
+			//Guardar en sesion
+			session.setAttribute("idioma", idioma);
+		}
+		
+//		Locale locale = new Locale(idioma.split("_")[0], idioma.split("_")[1]);
+//		ResourceBundle idiomas = ResourceBundle.getBundle("idiomas", locale );
 		
 		super.service(req, resp); //llama a los metodos GET y POST
 		
@@ -127,8 +143,6 @@ public class HomeController extends HttpServlet {
 			//listar videos
 			comentarios = (ArrayList<Comentario>) daoComentarios.getAll();
 			videos = (ArrayList<Video>) dao.getAll();
-			
-			anyadirComentarios(videos, comentarios);
 			
 			
 			//Video inicio
@@ -165,22 +179,7 @@ public class HomeController extends HttpServlet {
 		} finally {
 		}
 	}
-
-	private void anyadirComentarios(ArrayList<Video> videos2, ArrayList<Comentario> comentarios2) {
-		Video video;
-		Comentario comentario;
-		for(int i = 0;i < videos2.size() ; i++) {
-			for(int j = 0; j < comentarios2.size(); j++) {
-				video = videos2.get(i);
-				comentario = comentarios2.get(j);
-				System.out.println("Id Video: " + video.getId() + ", Id Comentario-Video: " + comentario.getIdVideo());
-				if(video.getId().equals(comentarios2.get(j).getIdVideo())) {
-					videos2.get(i).getComentarios().add(comentario);
-				}
-			}
-		}
-	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
