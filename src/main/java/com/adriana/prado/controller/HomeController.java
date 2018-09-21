@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import com.adriana.prado.model.ComentarioArrayDAO;
 import com.adriana.prado.model.VideoArrayDAO;
+import com.adriana.prado.model.VideoDAO;
 import com.adriana.prado.pojo.Video;
 import com.adriana.prado.pojo.Alert;
 import com.adriana.prado.pojo.Comentario;
@@ -41,7 +42,7 @@ public class HomeController extends HttpServlet {
 	
 	//atributos
 	private static String msg = "";
-	private static VideoArrayDAO dao;
+	private static VideoDAO dao;
 	private static ComentarioArrayDAO daoComentarios;
 	private static ArrayList<Video> videos;
 	private static ArrayList<Comentario> comentarios;
@@ -52,7 +53,7 @@ public class HomeController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		//Se ejecuta solo con la primera peticion. El resto van al service
 		super.init(config);
-		dao = VideoArrayDAO.getInstance();
+		dao = VideoDAO.getInstance();
 		daoComentarios = ComentarioArrayDAO.getInstance();
 	}
 	
