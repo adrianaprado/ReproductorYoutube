@@ -42,13 +42,14 @@
 								<input required type="text" class="form-control mb-1 mr-sm-2" id="inlineFormInputName2" placeholder="Usuario"
 									name="user" value="${cookie.cNombre.value}" pattern=".{3,30}">
 								<div class="input-group mb-1 mr-sm-2">
-								<input required type="password" class="form-control" id="inlineFormInputGroupUsername2"
-									placeholder="Contraseña" name="pswd" value="" pattern=".{2,50}">
+									<input required type="password" class="form-control" id="inlineFormInputGroupUsername2"
+										placeholder="Contraseña" name="pswd" value="" pattern=".{2,50}">
 								</div>
 								<button type="submit" class="btn btn-primary mb-1 mr-2"><fmt:message key="boton.login"/></button>
 								<input type="checkbox" id="check" value="recordar" name="recordar" ${(not empty cookie.cNombre.value )?"checked":""}> 
 								<label for="check" class="text-light"><fmt:message key="check.recordar"/></label> 
-							</form> 
+							</form>
+							<a href="registro.jsp">Registrarse</a>
 						</c:if>
 						</div>
 							<!-- Usuario Loggeado -->

@@ -1,4 +1,9 @@
 /*Hoja de estilos propia*/
- .botones-idioma:active{
+.formularioregistro{
+	margin-left:200px;
+	margin-right:200px;
+}
+
+.botones-idioma:active{
  	background-color: orange;
  }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.adriana.prado.model.UsuarioDAO;
 import com.adriana.prado.pojo.Alert;
 import com.adriana.prado.pojo.Usuario;
 
@@ -30,6 +31,8 @@ public class UserController extends HttpServlet {
 	private static String user = "";
 	private static String pswd = "";
 	private static String recordar = "";
+	
+	private static UsuarioDAO dao;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,23 +65,22 @@ public class UserController extends HttpServlet {
 			recordar = request.getParameter("recordar");
 			
 			
-			//Comprobar usuario contra BBDD TODO
-			if(user.equals("admin") && pswd.equals("admin") ||
-					user.equals("pepe") && pswd.equals("pepe") ||
-					user.equals("manoli") && pswd.equals("manoli") ||
-					user.equals("josepo") && pswd.equals("josepo")) {
-				
+			//Comprobar usuario contra BBDD
+			dao = UsuarioDAO.getInstance();
+			
+			Usuario usuario = dao.getByNombre(user);
+			
+			if(usuario.getNombre().equals(user) && usuario.getContrasena().equals(pswd)){
 				alert = new Alert(Alert.ALERT_PRIMARY, MessageFormat.format(idiomas.getString("msj.bienvenida"),user));
 				
-				Usuario u = new Usuario(user, pswd);
+				//Usuario u = new Usuario(user, pswd);
 				
 				//Guardar Usuario en session
-				session.setAttribute("usuario", u);
+				session.setAttribute("usuario", usuario);
 				session.setMaxInactiveInterval(60*5); //5 minutos
 				
 				//Gestionar cookies
-				gestionarCookies(request, response, u);
-
+				gestionarCookies(request, response, usuario);
 			}else {
 				alert = new Alert(Alert.ALERT_WARNING, "Credenciales incorrectas. Si aún no estás registrado, hazlo <a href='registro.jsp'>aquí</a>");
 			}

@@ -19,7 +19,7 @@
 <meta name="author" content="Adriana">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?<%=System.currentTimeMillis()%>">
 
 <title>Youtube</title>
 

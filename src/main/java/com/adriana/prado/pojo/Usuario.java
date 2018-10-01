@@ -4,18 +4,27 @@ public class Usuario {
 	private long id;
 	private String nombre;
 	private String contrasena;
+	private int rol;
 	
 	public Usuario() {
 		super();
 		this.id = -1;
 		this.nombre = "";
 		this.contrasena = "";
+		this.rol = 1;
 	}
 
 	public Usuario(String nombre, String contraseña) {
 		this();
 		this.nombre = nombre;
 		this.contrasena = contraseña;
+	}
+	
+	public Usuario(String nombre, String contraseña, int rol) {
+		this();
+		this.nombre = nombre;
+		this.contrasena = contraseña;
+		this.rol = rol;
 	}
 	
 	public long getId() {
@@ -40,6 +49,14 @@ public class Usuario {
 
 	public void setContrasena(String contraseña) {
 		this.contrasena = contraseña;
+	}
+
+	public int getRol() {
+		return rol;
+	}
+
+	public void setRol(int rol) {
+		this.rol = rol;
 	}
 
 	@Override
