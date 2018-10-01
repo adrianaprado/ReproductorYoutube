@@ -1,19 +1,29 @@
 package com.adriana.prado.pojo;
 
 public class Usuario {
+	private long id;
 	private String nombre;
-	private String contraseña;
+	private String contrasena;
 	
 	public Usuario() {
 		super();
+		this.id = -1;
 		this.nombre = "";
-		this.contraseña = "";
+		this.contrasena = "";
 	}
 
 	public Usuario(String nombre, String contraseña) {
 		this();
 		this.nombre = nombre;
-		this.contraseña = contraseña;
+		this.contrasena = contraseña;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -24,17 +34,17 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contraseña) {
+		this.contrasena = contraseña;
 	}
 
 	@Override
 	public String toString() {
-		return nombre + "-" + contraseña;
+		return id + "- "+ nombre + "-" + contrasena;
 	}
 	
 }

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.adriana.prado.model.ComentarioArrayDAO;
-import com.adriana.prado.model.VideoArrayDAO;
 import com.adriana.prado.model.VideoDAO;
 import com.adriana.prado.pojo.Video;
 import com.adriana.prado.pojo.Alert;
@@ -34,9 +33,11 @@ public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String OP_ELIMINAR = "1";
+	public static final String OP_MODIFICAR = "2";
 	
 	//parametros
 	private static String id = "";
+	private static String codigo = "";
 	private static String titulo = "";
 	private static String op = "";
 	
@@ -70,7 +71,7 @@ public class HomeController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//Estas lineas se ejecutaran antes de GET o POST
-		System.out.println("Antes de realizar Get o post");
+//		System.out.println("Antes de realizar Get o post");
 		
 		//Gestionar cookies de ultima visita
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -121,6 +122,11 @@ public class HomeController extends HttpServlet {
 		//despues de Get y Post
 		req.setAttribute("videos", videos);
 		req.setAttribute("videoInicio", videoInicio);
+		String playlist = "";
+		for(int i = 1; i<videos.size(); i++) {
+			playlist+= videos.get(i).getCodigo()+",";
+		}
+		req.setAttribute("playlist", playlist);
 		req.getRequestDispatcher("home.jsp").forward(req, resp);
 	}
 
@@ -130,15 +136,22 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Alert alert = null;
 		try {
 			
 			id = request.getParameter("id");
+			codigo = request.getParameter("codigo");
 			op = request.getParameter("op");
+			
 			
 			
 			//Eliminar video
 			if ( op != null && OP_ELIMINAR.equals(op) ) {
-				dao.delete(id);
+				if(dao.delete(id)) {
+					alert = new Alert(Alert.ALERT_SUCCESS, "Vídeo eliminado correctamente.");
+				}else {
+					alert = new Alert(Alert.ALERT_WARNING, "No se ha podido borrar el vídeo.");
+				}
 			}
 			
 			//listar videos
@@ -177,7 +190,9 @@ public class HomeController extends HttpServlet {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			alert = new Alert();
 		} finally {
+			request.setAttribute("alert", alert);
 		}
 	}
 	
@@ -187,37 +202,52 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Alert alert = null;
+		Video videoInicio;
+		Video videoEditar = null;
+		
 		try {
 			
 			msg = "";
-			videos = (ArrayList<Video>) dao.getAll();
 			
 			id = request.getParameter("id");
+			codigo = request.getParameter("codigo");
 			titulo = request.getParameter("titulo");
-						
-			if(id != null && titulo != null) {
-				if(!id.equals("") && !titulo.equals("")){
-					for(int i = 0; i<dao.getAll().size();i++) {
-						if(dao.getById(id).equals(null)) {
-							Alert alert = new Alert(Alert.ALERT_SUCCESS, "Registro dado de alta correctamente.");
-							request.setAttribute("alert", alert);
-							dao.insert(new Video(id, titulo));
-						}else
-							msg = "La canción a insertar ya está en la lista.";
-							request.setAttribute("alert", new Alert(Alert.ALERT_WARNING , "La canción a insertar ya existe.") );
-					}
-					
-				}else
-					msg = "Debe introducir un ID y un título.";
+			
+			String id2 = request.getParameter("id2");
+			String titulo2 = request.getParameter("titulo2");
+			
+			if(id2 != null && titulo2 != null) {
+				videoEditar = dao.getById(id2);
+				videoEditar.setTitulo(titulo2);
+				if(dao.update(videoEditar)) {
+					alert = new Alert(Alert.ALERT_SUCCESS, "Vídeo actualizado correctamente.");
+				}else {
+					alert = new Alert(Alert.ALERT_DANGER, "No se ha podido actualizar el vídeo.");
+				}
 			}
+						
+			if(codigo != null && titulo != null) {
+				if(!codigo.equals("") && !titulo.equals("")){
+					videoInicio = new Video(codigo, titulo);
+					if(dao.insert(videoInicio)) {
+						alert = new Alert(Alert.ALERT_SUCCESS, "Registro dado de alta correctamente.");
+						request.setAttribute("alert", alert);
+					}else
+						alert = new Alert(Alert.ALERT_WARNING, "La cancion a introducir ya existe.");
+						request.setAttribute("alert", alert );
+				}else
+					alert = new Alert(Alert.ALERT_WARNING, "Debe introducir un ID y un título.");
+			}
+			
+			videos = (ArrayList<Video>) dao.getAll();
+			
 		} catch (Exception e) {
-			request.setAttribute("alert", new Alert(Alert.ALERT_WARNING , 
-					"Error al introducir el video. El ID no contiene 11 caracteres."));
-			msg = "Error al introducir el video. El ID no contiene 11 caracteres.";
-		} finally {			
-			request.setAttribute("msg", msg);
+			e.printStackTrace();
+		} finally {
+			request.setAttribute("alert", alert);
 			request.setAttribute("videos", videos);
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+//			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 	}
 

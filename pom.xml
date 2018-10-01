@@ -43,7 +43,7 @@
 			<artifactId>jstl</artifactId>
 			<version>${javax.servlet.jstl.version}</version>
 		</dependency>
-
+		
 		<!-- libreria MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>

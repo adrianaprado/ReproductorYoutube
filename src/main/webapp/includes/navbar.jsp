@@ -14,11 +14,11 @@
 			<div class="ml-1 text-light botones-idioma"><% %>
 				<span> 
 					<a href="inicio?idioma=es_ES" class="badge badge-${(sessionScope.idioma eq 'es_ES')?'warning':'light'}" ${(sessionScope.idioma eq 'es_ES')?'active':''}>
-					ES</a> | 
+					ES</a>
 				</span>
 				<span class="ml-0.5">
 					<a href="inicio?idioma=eu_ES" class="badge badge-${(sessionScope.idioma eq 'eu_ES')?'warning':'light'}" ${(sessionScope.idioma eq 'eu_ES')?'active':''}>
-					EU</a> |
+					EU</a>
 				</span>
 					<span class="ml-0.5">
 					<a href="inicio?idioma=en_EN" class="badge badge-${(sessionScope.idioma eq 'en_EN')?'warning':'light'}" ${(sessionScope.idioma eq 'es_ES')?'active':''}>
@@ -67,7 +67,7 @@
 								<input
 									required type="text" class="form-control mb-1 mr-sm-2"
 									id="inlineFormInputName2" placeholder="ID (11 caracteres)"
-									name="id" pattern=".{11,11}">
+									name="codigo" pattern=".{11,11}">
 								<div class="input-group mb-1 mr-sm-2">
 									<input required type="text" class="form-control"
 										id="inlineFormInputGroupUsername2"
