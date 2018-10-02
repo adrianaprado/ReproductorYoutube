@@ -18,6 +18,9 @@ import com.adriana.prado.pojo.Usuario;
 public class RegistroUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private static final String VIEW_REGISTRO = "registro.jsp";
+	private static final String VIEW_HOME = "/inicio";
+	
 	private static String usuario = "";
 	private static String pswd = "";
 	private static String pswdRepe = "";
@@ -28,6 +31,16 @@ public class RegistroUsuarioController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Aqui llamar a la jsp y poner la alert a null
+		Alert alert = null;
+		
+		try {
+			request.setAttribute("alert", alert);
+		}catch(Exception e) {
+			
+		}finally {
+			request.getRequestDispatcher(VIEW_REGISTRO).forward(request, response);
+		}
 		
 	}
 
@@ -41,34 +54,47 @@ public class RegistroUsuarioController extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		Alert alert = null;
 		Usuario u = null;
-		String vista = "registro.jsp";
+		String vista = VIEW_REGISTRO;
+		
 		dao = UsuarioDAO.getInstance();
 		
 		try {
+			//Recoger parametros
 			usuario = request.getParameter("usuario");
 			pswd = request.getParameter("pswd");
 			pswdRepe = request.getParameter("pswdRepe");
 			
+			//Realizar comprobaciones
 			if(usuario != null && pswd != null && pswdRepe != null) {
 				u = new Usuario(usuario, pswd);
 				if(pswd.equals(pswdRepe)) {
 					if(dao.insert(u)) {
-						vista = "home.jsp";
+						vista = VIEW_HOME;
 						alert = new Alert(Alert.ALERT_SUCCESS, "Usuario registrado correctamente.");
 					}else {
-						alert = new Alert(Alert.ALERT_DANGER, "Este usuario ya esta registrado.");
+						alert = new Alert(Alert.ALERT_DANGER, "El usuario " + usuario + " ya esta registrado.");
 					}
 				}else {
 					alert = new Alert(Alert.ALERT_DANGER, "Las contraseñas no coinciden.");
 				}
 			}else {
-				alert = new Alert(Alert.ALERT_DANGER, "Debes rellenar todos los campos");
+				alert = new Alert(Alert.ALERT_DANGER, "Debes rellenar todos los campos.");
 			}
+			
+			//Enviar atributos e ir a la vista
 			request.setAttribute("alert", alert);
 		}catch(Exception e) {
 			e.printStackTrace();
+			alert = new Alert(Alert.ALERT_DANGER, "Ha ocurrido un error inesperado.");
 		}finally {
-			request.getRequestDispatcher(vista).forward(request, response);
+			if(vista.equals(VIEW_HOME)) {
+				request.getSession().setAttribute("alert", alert);
+				alert = null;
+				response.sendRedirect(request.getContextPath() + VIEW_HOME);
+			}else {
+				alert = null;
+				request.getRequestDispatcher(vista).forward(request, response);
+			}			
 		}
 	}
 

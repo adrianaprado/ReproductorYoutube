@@ -22,12 +22,11 @@
 <link rel="stylesheet" href="css/styles.css?<%=System.currentTimeMillis()%>">
 
 <title>Youtube</title>
+	<!-- Bootstrap core CSS -->
+	<link href="https://blackrockdigital.github.io/startbootstrap-shop-item/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-    <link href="https://blackrockdigital.github.io/startbootstrap-shop-item/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="https://blackrockdigital.github.io/startbootstrap-shop-item/css/shop-item.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="https://blackrockdigital.github.io/startbootstrap-shop-item/css/shop-item.css" rel="stylesheet">
 
 </head>
 

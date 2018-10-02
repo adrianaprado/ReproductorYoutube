@@ -6,7 +6,7 @@
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.net.URLDecoder"%>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-2">
 		<div class="container">
 			<a class="navbar-brand" href="#">Youtube Playlist</a>
 			
@@ -31,9 +31,11 @@
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon">0</span>
 			</button>
+			
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active">
+					
 						<!-- Usuario no loggeado -->
 						<c:if test="${empty usuario}">
 							<!-- Formulario de login -->
@@ -51,22 +53,23 @@
 							</form>
 							<a href="registro.jsp">Registrarse</a>
 						</c:if>
-						</div>
-							<!-- Usuario Loggeado -->
+					</li>
+					
+					<li class="nav-item">
+						<!-- Usuario Loggeado -->
 						<c:if test="${not empty usuario}">
-							<div class="">
-								<a class ="mr-2" href="backoffice/index.jsp"><fmt:message key="boton.backoffice"/></a>
+							<div class="row justify-content-around">
+								<a class ="text-center" href="backoffice/inicio"><fmt:message key="boton.backoffice"/></a>
 								<span class="text-center" style="color:#FFF">
-									<i class="fas fa-user mr-1 ml-2"></i> 
+									<i class="fas fa-user mr-1"></i> 
 									${usuario.nombre} |
 									<a class="ml-1 mr-2" href="logout"><fmt:message key="boton.logout"/></a>
 								</span> 
 							</div>
+							
 							<!-- Formulario para crear video -->
-							<form class="form-inline navbar-nav ml-auto" action="inicio"
-								method="post">
-								<input
-									required type="text" class="form-control mb-1 mr-sm-2"
+							<form class="form-inline navbar-nav ml-auto" action="inicio" method="post">
+								<input required type="text" class="form-control mb-1 mr-sm-2"
 									id="inlineFormInputName2" placeholder="ID (11 caracteres)"
 									name="codigo" pattern=".{11,11}">
 								<div class="input-group mb-1 mr-sm-2">
@@ -79,6 +82,6 @@
 						</c:if>
 					</li>
 				</ul>
-			</div>
+			</div>	
 		</div>
 	</nav>

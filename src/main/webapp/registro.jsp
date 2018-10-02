@@ -58,6 +58,7 @@
 		
 		<input class="form-control btn btn-outline-primary" type="submit" value="Dar de Alta">
 	</form>
+	<!-- /.registro -->
 </div>
 <!-- /.container -->
 

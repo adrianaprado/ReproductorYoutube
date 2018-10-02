@@ -25,7 +25,7 @@
 	<%@include file="includes/navbar.jsp"%>
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container mt-4">
 <%-- 	<p><fmt:message key="msj.video.por.visualizar"> --%>
 <%-- 		<fmt:param value="1" /> --%>
 <%-- 	</fmt:message></p> --%>

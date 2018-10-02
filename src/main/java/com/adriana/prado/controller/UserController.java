@@ -25,14 +25,15 @@ import com.adriana.prado.pojo.Usuario;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String VIEW_HOME = "home.jsp";
+	private static final String VIEW_INICIO_ADMIN = "/backoffice/inicio";
+	private static final String VIEW_INICIO_USER = "/inicio";
 	
 	//Parametros
 	private static String user = "";
 	private static String pswd = "";
 	private static String recordar = "";
 	
-	private static UsuarioDAO dao;
+	private static UsuarioDAO daoUsuario;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,6 +54,7 @@ public class UserController extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Alert alert = new Alert();
 		HttpSession session = request.getSession();
+		String view = VIEW_INICIO_USER;
 		
 		try {
 			//Locale locale = request.getLocale(); (not empty sessionScope.idioma)?sessionScope.idioma:'es_ES'
@@ -66,14 +68,20 @@ public class UserController extends HttpServlet {
 			
 			
 			//Comprobar usuario contra BBDD
-			dao = UsuarioDAO.getInstance();
+			daoUsuario = UsuarioDAO.getInstance();
 			
-			Usuario usuario = dao.getByNombre(user);
+			Usuario usuario = daoUsuario.getByNombre(user, pswd);
 			
-			if(usuario.getNombre().equals(user) && usuario.getContrasena().equals(pswd)){
+			if(/*usuario.getNombre().equals(user) && usuario.getContrasena().equals(pswd)*/ usuario != null){
 				alert = new Alert(Alert.ALERT_PRIMARY, MessageFormat.format(idiomas.getString("msj.bienvenida"),user));
 				
 				//Usuario u = new Usuario(user, pswd);
+				
+				if(usuario.getRol() == Usuario.ROL_ADMIN) {
+					view = VIEW_INICIO_ADMIN;
+				}else {
+					view = VIEW_INICIO_USER;
+				}
 				
 				//Guardar Usuario en session
 				session.setAttribute("usuario", usuario);
@@ -89,10 +97,10 @@ public class UserController extends HttpServlet {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			session.setAttribute("alert", alert);
+//			session.setAttribute("alert", alert);
 			alert = null;
 			//request.getRequestDispatcher("/").forward(request, response);
-			response.sendRedirect(request.getContextPath() + "/inicio");
+			response.sendRedirect(request.getContextPath() + view);
 		}	
 	}
 

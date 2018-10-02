@@ -11,12 +11,12 @@ import com.mysql.jdbc.Statement;
 
 public class UsuarioDAO implements Crudable<Usuario>{
 	private static UsuarioDAO INSTANCE = null;
-	private final String SQL_GET_ALL = "SELECT id, nombre, password FROM usuario ORDER BY id DESC LIMIT 1000";
-	private final String SQL_GET_BY_ID = "SELECT nombre, password FROM usuario WHERE id = ? LIMIT 1000";
-	private final String SQL_GET_BY_NOMBRE = "SELECT id, nombre, password FROM usuario WHERE nombre = ? LIMIT 1000";
-	private final String SQL_UPDATE = "UPDATE usuario SET nombre = ?, password = ? WHERE id = ?;";
-	private final String SQL_INSERT = "INSERT INTO usuario (nombre, password) VALUES (?, ?);";
-	private final String SQL_DELETE = "DELETE FROM usuario WHERE id = ?;";
+	private static final String SQL_GET_ALL = "SELECT id, nombre, password, rol FROM usuario ORDER BY id DESC LIMIT 1000";
+	private static final String SQL_GET_BY_ID = "SELECT nombre, password FROM usuario WHERE id = ? LIMIT 1000";
+	private static final String SQL_GET_BY_NOMBRE = "SELECT id, nombre, password, rol FROM usuario WHERE nombre = ? AND password = ?";
+	private static final String SQL_UPDATE = "UPDATE usuario SET nombre = ?, password = ? WHERE id = ?;";
+	private static final String SQL_INSERT = "INSERT INTO usuario (nombre, password) VALUES (?, ?);";
+	private static final String SQL_DELETE = "DELETE FROM usuario WHERE id = ?;";
 	
 	private UsuarioDAO() {
 		super();
@@ -37,8 +37,8 @@ public class UsuarioDAO implements Crudable<Usuario>{
 				PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				){
 			if(pojo != null) {
-				ps.setString(1, pojo.getNombre());
-				ps.setString(2, pojo.getContrasena());
+				ps.setString(1, pojo.getNombre().trim());
+				ps.setString(2, pojo.getContrasena().trim());
 				
 				int affectedRows = ps.executeUpdate();
 				
@@ -107,14 +107,21 @@ public class UsuarioDAO implements Crudable<Usuario>{
 		return u;
 	}
 
+	/**
+	 * Funcion que comprueba el nombre y la contraseña de un usuario y si existe devuelve el objeto Usuario de la bbdd
+	 * @param Nombre de usuario a comprobar.
+	 * @param Password del usuario a comprobar.
+	 * @return El usuario de la bbdd que coincida con los parametros. Si no existe, devuelve null.
+	 */
 	//Metodo extra para encontrar un usuario registrado por su nombre, ya que es UK
-	public Usuario getByNombre(String nombre) {
+	public Usuario getByNombre(String nombre, String pswd) {
 		Usuario u = null;
 		try (Connection con =  ConnectionManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(SQL_GET_BY_NOMBRE);
 				){
 			
 			ps.setString(1, nombre);
+			ps.setString(2, pswd);
 			
 			try (ResultSet rs = ps.executeQuery();){
 				//Obtener resultados
@@ -184,6 +191,7 @@ public class UsuarioDAO implements Crudable<Usuario>{
 			u.setId(rs.getLong("id"));
 			u.setNombre( rs.getString("nombre"));
 			u.setContrasena(rs.getString("password"));
+			u.setRol(rs.getInt("rol"));
 		}
 		return u;
 	}
