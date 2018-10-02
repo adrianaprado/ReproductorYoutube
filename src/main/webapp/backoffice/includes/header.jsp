@@ -4,7 +4,7 @@
 <head>
 
 <!-- Comienza todas las URLs desde el href indicado -->
-<base href="<%=request.getContextPath()%>/">
+<base href="<%=request.getContextPath()%>/backoffice/">
 
 <meta charset="utf-8">
 <meta name="viewport"
@@ -16,17 +16,21 @@
 <link rel="stylesheet" href="css/styles.css?<%=System.currentTimeMillis()%>">
 
 <title>Youtube</title>
+
+	<!-- Bootstrap 3.3.7-->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
 	<!-- Bootstrap core CSS -->
 	<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
- 	
- 	<!-- MetisMenu CSS -->
-    <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+	<!-- DataTables CSS -->
+    <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
