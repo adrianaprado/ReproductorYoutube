@@ -12,53 +12,50 @@
 
 <%@include file="includes/header.jsp"%>
 
-<%@include file="includes/navbar.jsp"%>
-
 <div class="container mt-4 mb-4">
-	<c:if test="${empty alert }">
-		${alert = null }
-	</c:if>
+
+	<%@include file="includes/navbar.jsp"%>
+
+	<%@include file="includes/alert.jsp"%>
 	
-	<c:if test="${not empty alert }">
-		<div class="alert ${alert.tipo } alert-dismissible fade show mt-4 mb-4" role="alert">
-			<p>${alert.texto }</p>
-		 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		 		<span aria-hidden="true">&times;</span>
-		 	</button>
-		</div>
-		${alert = null }
-	</c:if>
-		
-	<h1 class="text-center">Registro nuevos usuarios</h1>
+	<div class="row justify-content-center">
 	
-	<form action="registro" method="post" class="formularioregistro">
-		<div class="form-row">
-			<div class="col">
-				<div class="form-group">
-				   <label class="required" for="usuario">Usuario: </label>
-				   <input class="form-control" type="text" name="usuario" placeholder="Mínimo 3 caracteres y máximo 10" minlength="4" maxlength="10" autofocus tabindex="1" required>
-			   </div>
-			</div>
-		</div>
-		
-		<div class="form-row">
-			<div class="col">
-				<div class="form-group">
-				    <label class="required" for="pswd">Contraseña: </label>
-				    <input class="form-control" type="password" name="pswd" placeholder="Mínimo 4 caracteres" minlength="4" tabindex="2" required>
+		<div class="col-6">
+			
+			<h1 class="text-center">Registro nuevos usuarios</h1>
+			
+			<form action="registro" method="post" class="formularioregistro" >
+				<div class="form-row">
+					<div class="col">
+						<div class="form-group">
+						   <label class="required" for="usuario">Usuario: </label>
+						   <input class="form-control" type="text" name="usuario" placeholder="Mínimo 3 caracteres y máximo 10" minlength="4" maxlength="10" autofocus tabindex="1" required>
+					   </div>
+					</div>
 				</div>
-			</div>	
-			<div class="col">
-				<div class="form-group">
-				    <label class="required" for="pswd">Repite la contraseña: </label>
-				    <input class="form-control" type="password" name="pswdRepe" placeholder="Repite la contraseña anterior" minlength="4" tabindex="3" required>
+				
+				<div class="form-row">
+					<div class="col">
+						<div class="form-group">
+						    <label class="required" for="pswd">Contraseña: </label>
+						    <input class="form-control" type="password" name="pswd" placeholder="Mínimo 4 caracteres" minlength="4" tabindex="2" required>
+						</div>
+					</div>	
+					<div class="col">
+						<div class="form-group">
+						    <label class="required" for="pswd">Repite la contraseña: </label>
+						    <input class="form-control" type="password" name="pswdRepe" placeholder="Repite la contraseña anterior" minlength="4" tabindex="3" required>
+						</div>
+					</div>
 				</div>
-			</div>
+				
+				<input class="form-control btn btn-outline-primary" type="submit" value="Dar de Alta">
+			</form>
+			<!-- /.registro -->
 		</div>
-		
-		<input class="form-control btn btn-outline-primary" type="submit" value="Dar de Alta">
-	</form>
-	<!-- /.registro -->
+		<!-- .col -->
+	</div>
+	<!-- .row -->
 </div>
 <!-- /.container -->
 

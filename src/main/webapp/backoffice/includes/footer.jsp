@@ -3,7 +3,6 @@
 		
 		<!-- Bootstrap 3.3.7-->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		
 	
 	    <!-- Bootstrap Core JavaScript -->
 	    <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -19,8 +18,11 @@
 		<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 	    <script>
 		    $(document).ready(function() {
-		        $('#dataTables-example').DataTable({
-		            responsive: true
+		        $('#dataTable-ordenable').DataTable({
+		        	responsive: true,
+		        	"language": {
+		        		"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+		       		}		            
 		        });
 		    });
 	    </script>
