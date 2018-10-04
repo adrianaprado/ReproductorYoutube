@@ -4,7 +4,7 @@ public class Usuario {
 	private long id;
 	private String nombre;
 	private String contrasena;
-	private int rol; //TODO crear pojo y tabla Rol
+	private int rol; //TODO Crear pojo y tabla Rol
 	
 	public static final int ROL_ADMIN = 0;
 	public static final int ROL_USER = 1;

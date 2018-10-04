@@ -53,7 +53,7 @@ public class FilterBackoffice implements Filter {
 				// pass the request along the filter chain
 				chain.doFilter(request, response);
 			}else {
-				//TODO comprobar rol del usuario. Si es 0, pasa, sino, no puede
+				//TODO Comprobar rol del usuario. Si es 0, pasa, sino, no puede
 				
 				informacionCliente(req);
 				
